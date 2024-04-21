@@ -37,28 +37,39 @@ class Cactus{
 
 
 
-
-let cactus = new Cactus();
+let deltaTime; //현재 시간,델타타임
+let previousTime=performance.now();
 let tiemCount=0;
-
+let cactusList=[];
+let timer=0;
 // dino.draw();
 // cactus.draw();
 
 
 
 
-function frameDo(){
-    requestAnimationFrame(frameDo);
-    tiemCount++;
-    
+function Update(currentTime){
+    requestAnimationFrame(Update);
+    timer++;
+    currentTime=performance.now();
+
+    deltaTime=(currentTime-previousTime)/100;   
+
+    previousTime=currentTime;
+
     ctx.clearRect(0,0, canvas.width,canvas.height);
     dino.draw();
-    cactus.draw();
-    // dino.x++;
-    // dino.draw();
+    if(timer % 120*deltaTime===0){
+        let cactus=new Cactus();
+        cactusList.push(cactus);
+    }
+    for(idx in cactusList){
+        cactusList[idx].draw();
+        cactusList[idx].x--;
+    }
 
 }
 
-frameDo();
-
+requestAnimationFrame(Update);
+// requestAnimationFramed()파라미터는 performance.now(); 와 비슷한 DOMHighResTimeStamp 
 
